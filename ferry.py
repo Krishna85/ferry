@@ -9,7 +9,6 @@ url='https://orca.bcferries.com/cc/marqui/at-a-glance.asp'
 global dict_data
 dict_data={}
 tp_val=[]
-sailings_data=[]
 global temp_data
 temp_data=[]
 global  list_data
@@ -20,13 +19,15 @@ soup=BeautifulSoup(data,'html.parser')
 #print soup.prettify()
 
 def make_data():
- threading.Timer(5.0, make_data).start()
  data=requests.get(url).text
  soup=BeautifulSoup(data,'html.parser')
  temp_data=[]
  port_data=[]
+ sailings_data=[]
  global list_data
  list_data=[]
+ global dict_data
+ dict_data={}
  i=0
  for values in soup.find_all('tr',bgcolor=['#D4E3ED','#dfeaf2']):
   port_data.append(values.td.text)
@@ -36,21 +37,18 @@ def make_data():
   if item!='':
    temp_data.append(item[:item.find('m')+1]+' '+item[item.find('m')+1:])
   else:
-    dict_data['sailings']=temp_data
-    dict_data['port']=port_data[i]
-    temp_data=[]
-    list_data.append(dict_data.copy())
-    i=i+1
+    try:
+     dict_data['sailings']=temp_data
+     dict_data['port']=port_data[i]
+     temp_data=[]
+     list_data.append(dict_data.copy())
+     i=i+1
+    except:
+     pass
 
 @app.route("/")
 def data_out():
- threading.Timer(5.0, data_out).start()
- global list_data
- #for item in list_data:
- #return item['port']
-  #return item['sailings'][0]
- return render_template('home.html',data=list_data)
- list_data=[]
-if __name__=='__main__':
  make_data()
+ return render_template('home.html',data=list_data)
+if __name__=='__main__':
  app.run()
