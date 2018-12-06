@@ -1,0 +1,14 @@
+<html>
+ <body>
+  <h1>
+    {% for value in data %}
+      <br>
+       {{ value['port'] }}    
+        {% for sail in  value['sailings'] %}
+           {{ sail }}
+        {% endfor %}
+     </br>
+    {% endfor %}
+  </h1>
+ </body>
+</html>
