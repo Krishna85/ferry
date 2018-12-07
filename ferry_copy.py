@@ -12,6 +12,7 @@ data=requests.get(url).text
 soup=BeautifulSoup(data,'html.parser')
 
 #print soup.prettify()
+#EXTRAS Added!
 
 def make_data():
  data=requests.get(url).text
