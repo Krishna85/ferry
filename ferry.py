@@ -6,12 +6,7 @@ import threading
 
 app=Flask(__name__)
 url='https://orca.bcferries.com/cc/marqui/at-a-glance.asp'
-global dict_data
 dict_data={}
-tp_val=[]
-global temp_data
-temp_data=[]
-global  list_data
 list_data=[]
 data=requests.get(url).text
 soup=BeautifulSoup(data,'html.parser')
@@ -45,7 +40,7 @@ def make_data():
      i=i+1
     except:
      pass
-
+  
 @app.route("/")
 def data_out():
  make_data()
